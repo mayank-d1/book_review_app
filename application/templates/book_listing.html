@@ -12,7 +12,7 @@
     <div class="list_container">
         <h2>Search a book:-</h2>
         <div id="search">
-            <form action="{{ url_of('book.book_search') }}" method="post">
+            <form action="{{ url_for('book.book_search') }}" method="post">
                 <input type="radio" id="isbn" name="option" value="isbn">
                 <label for="isbn">ISBN</label>
                 <input type="radio" id="title" name="option" value="title">
