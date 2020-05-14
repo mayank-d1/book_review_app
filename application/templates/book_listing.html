@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<link rel="stylesheet" href="../static/book.css">
+{% endblock %}
+
+{% block title %}
+<title>Login</title>
+{% endblock %}
+
+{% block body %}
+    <div class="list_container">
+        <h2>Search a book:-</h2>
+        <div id="search">
+            <form action="{{ url_of('book.book_search') }}" method="post">
+                <input type="radio" id="isbn" name="option" value="isbn">
+                <label for="isbn">ISBN</label>
+                <input type="radio" id="title" name="option" value="title">
+                <label for="title">Title</label>
+                <input type="radio" id="author" name="option" value="author">
+                <label for="isbn">Author</label>
+                <input type="text" name="search-text" placeholder="Enter the text here.">
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+        <br>
+        <div class="heading-pagination">
+        <h2>Available Books</h2>
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end">
+            <li class="page-item">
+              <a class="page-link" href="{{url_for('book.book_listing', page=curr_page-1)|string }}" tabindex="{{ curr_page - 1 }}">Previous</a>
+            </li>
+                <li class="page-item active">
+                    <a class="page-link" href="{{url_for('book.book_listing', page=curr_page)|string }}">{{ curr_page }}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="{{url_for('book.book_listing', page=(curr_page+1)|string) }}">{{ curr_page+1 }}</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="{{url_for('book.book_listing', page=(curr_page+2)|string) }}">{{ curr_page+2 }}</a>
+                </li>
+            <li class="page-item">
+              <a class="page-link" href="{{url_for('book.book_listing', page=curr_page+1)|string }}">Next</a>
+            </li>
+          </ul>
+        </nav></div>
+        <div id="book-listing">
+            {% for book in books %}
+            <div class="book-layout">
+                <a href="{{ url_for('user.login') }}">
+                    <img src="https://covers.openlibrary.org/b/ISBN/{{ book.isbn }}-M.jpg" alt="book">
+                    <div>
+                        <span class="book-isbn">ISBN - {{book.isbn}}</span>
+                    </div>
+                </a>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}

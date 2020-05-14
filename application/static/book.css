@@ -1,0 +1,18 @@
+.book-layout{
+    margin: 10px 10px 10px 10px;
+}
+
+#book-listing{
+    display: flex;
+    flex-wrap: wrap;
+    margin: -9px;
+}
+.book-layout img{
+    height: 200px;
+    width: 150px
+}
+
+.heading-pagination{
+    display: flex;
+    justify-content: space-between;
+}
