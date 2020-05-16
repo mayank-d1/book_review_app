@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, request, url_for, redirect, flash
+from flask import (Blueprint, render_template, url_for,
+                   redirect, flash, request, session)
 
-from application.views.user import create_user
+from application.views.user import check_and_create_user, check_and_login
 from application.forms import SignupForm, LoginForm
-from application.models.user import User
 
 # Blueprint Configuration
 user_bp = Blueprint('user', __name__)
@@ -17,13 +17,12 @@ def login():
     POST: Validate form.
     """
     form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()  # Validate Login Attempt
-        if user and user.check_password(password=form.password.data):
-            return redirect(url_for('book.book_listing'))
-        flash('Invalid username/password combination')
-        return redirect(url_for('user.login'))
-
+    if request.method == "POST":
+        response = check_and_login(data=form)
+        if response:
+            flash(response["message"], "message")
+            return redirect(url_for(response["redirect_to"]))
+        flash("Invalid email/password.")
     return render_template('login.html', form=form)
 
 
@@ -36,19 +35,20 @@ def register():
     POST: Validate form.
     """
     form = SignupForm()
-    if form.validate_on_submit():
-        existing_user = User.query.filter_by(email=form.email.data).first()
-        if existing_user is None:
-            create_user(data=form)
-            return redirect(url_for('book.book_listing'))
+    if request.method == "POST":
+        response = check_and_create_user(data=form)
+        if response:
+            flash(response["message"])
+            return redirect(url_for(response["redirect_to"]))
 
-        flash('A user already exists with that email address.')
-
-    # User sign-up logic will go here.
-
+        flash('User already exists with that email address.')
     return render_template('register.html', form=form)
 
 
 @user_bp.route("/logout", methods=["GET"])
 def logout():
-    return "Logged out Successfully"
+    if not session.get("user_id"):
+        flash("Please login or register before doing this.")
+    session.pop("user_id")
+    flash("Logged out Successfully")
+    return redirect(url_for("user.login"))

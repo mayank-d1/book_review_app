@@ -5,16 +5,18 @@
 
 {% endblock %}
 
-{% block body %}
-  <div class="form-wrapper">
+{% block css %}
+  <link rel="stylesheet" href="../static/register.css">
+{% endblock %}
 
-    {% for message in get_flashed_messages() %}
-      <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
+{% block body %}
+  {% for message in get_flashed_messages() %}
+      <div class="alert alert-warning alert-dismissible">
+        <button type="button" class="close fade in" data-dismiss="alert">&times;</button>
         {{ message }}
       </div>
-    {% endfor %}
-
+  {% endfor %}
+  <div class="form-wrapper">
     <h1>Registration</h1>
 
     <form method="POST" action="{{ url_for('user.register') }}">
@@ -70,7 +72,7 @@
 
     </form>
 
-    <div class="login-signup">
+    <div class="register-signin">
       <span>Already have an account? <a href="{{ url_for('user.login') }}">Log in.</a></span>
     </div>
   </div>

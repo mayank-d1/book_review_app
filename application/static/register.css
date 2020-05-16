@@ -1,0 +1,19 @@
+.form-wrapper{
+    width: 18%;
+    margin: 4rem auto;
+    border-style: outset;
+    box-sizing: content-box;
+    padding: 10px;
+}
+
+fieldset{
+    margin: 1rem auto;
+}
+
+.register-signin{
+    margin: 1rem auto;
+}
+
+h1{
+    text-align: center;
+}

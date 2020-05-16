@@ -1,0 +1,19 @@
+.form-wrapper{
+    width: 16%;
+    margin: 5rem auto;
+    border-style: outset;
+    box-sizing: content-box;
+    padding: 10px;
+}
+
+fieldset{
+    margin: 1rem auto;
+}
+
+.login-signup{
+    margin: 1rem auto;
+}
+
+h1{
+    text-align: center;
+}

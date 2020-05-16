@@ -1,9 +1,10 @@
 import csv
 import os
 
+from flask import session
 import requests
 
-from application.models.book import Book, db
+from application.models.book import Book, db, BookReview
 
 
 def store_books_in_db():
@@ -36,12 +37,16 @@ def search_book(data):
     search_type = data.get("option")
     search_text = data.get("search-text")
     books = Book.query.filter((getattr(Book, search_type).ilike('%' + search_text + '%'))).all()
-    # books = map(get_good_reads_data, books)
     return books
 
 
 def get_all_data_of_book(book_isbn):
     book = Book.query.filter_by(isbn=book_isbn).first()
+    review = BookReview.query.filter_by(book_id=book.id).filter_by(user_id=session.get("user_id")).first()
+    if review:
+        book.review_given = True
+        book.given_review = review.review
+        book.given_rating = review.rating
     res = requests.get("https://www.goodreads.com/book/review_counts.json",
                        params={"key": os.environ.get("GOOD_READ_KEY"), "isbns": book_isbn})
     if res.status_code == 200:
@@ -54,3 +59,12 @@ def get_all_data_of_book(book_isbn):
         book["avg_rating"] = 0
     return book
 
+
+def store_book_review(book_isbn, review_data):
+    book = Book.query.filter_by(isbn=book_isbn).first()
+    user = session.get("user_id")
+    review = review_data.get("review")
+    rating = review_data.get("rating")
+    book_review = BookReview(book_id=book.id, user_id=user, review=review, rating=rating)
+    db.session.add(book_review)
+    db.session.commit()

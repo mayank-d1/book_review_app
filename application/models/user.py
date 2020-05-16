@@ -9,6 +9,7 @@ class User(db.Model):
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(50), nullable=False, unique=True)
     password = db.Column(db.String(200), nullable=False)
+    books = db.relationship("BookReview", backref='book_review')
 
     def set_password(self, password):
         """Create hashed password."""

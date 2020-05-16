@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_session import Session
 
 
 # Globally accessible libraries
 db = SQLAlchemy()
+sess = Session()
 
 
 def create_app():
@@ -13,6 +15,7 @@ def create_app():
 
     # Initialize Plugins
     db.init_app(app)
+    sess.init_app(app)
 
     with app.app_context():
         # Include our Routes

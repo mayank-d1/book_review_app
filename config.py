@@ -13,3 +13,7 @@ class Config:
     # Database Config
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # Session
+    SESSION_PERMANENT = False
+    SESSION_TYPE = "filesystem"
