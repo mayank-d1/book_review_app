@@ -13,6 +13,7 @@ passlib = "*"
 psycopg2 = "*"
 flask-wtf = "*"
 email-validator = "*"
+requests = "*"
 
 [requires]
 python_version = "3.6"

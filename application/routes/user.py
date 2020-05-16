@@ -20,7 +20,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()  # Validate Login Attempt
         if user and user.check_password(password=form.password.data):
-            return "Logged in Successfully"
+            return redirect(url_for('book.book_listing'))
         flash('Invalid username/password combination')
         return redirect(url_for('user.login'))
 
@@ -40,8 +40,7 @@ def register():
         existing_user = User.query.filter_by(email=form.email.data).first()
         if existing_user is None:
             create_user(data=form)
-            # return redirect(url_for('main_bp.dashboard'))
-            return "Registration Successfully"
+            return redirect(url_for('book.book_listing'))
 
         flash('A user already exists with that email address.')
 

@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block title %}
-<title>Login</title>
+<title>Book Listing</title>
 {% endblock %}
 
 {% block body %}
@@ -48,7 +48,7 @@
         <div id="book-listing">
             {% for book in books %}
             <div class="book-layout">
-                <a href="{{ url_for('user.login') }}">
+                <a href="{{ url_for('book.get_book_details', book_isbn=book.isbn) }}">
                     <img src="https://covers.openlibrary.org/b/ISBN/{{ book.isbn }}-M.jpg" alt="book">
                     <div>
                         <span class="book-isbn">ISBN - {{book.isbn}}</span>
